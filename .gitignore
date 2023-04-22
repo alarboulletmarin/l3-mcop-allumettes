@@ -31,3 +31,7 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# id git
+id_rsa
+id_rsa.pub

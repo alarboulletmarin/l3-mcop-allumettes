@@ -6,8 +6,11 @@ import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+
 import androidx.annotation.Nullable;
+
 import fr.unice.l3.allumettes.R;
+
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -15,12 +18,13 @@ import android.graphics.Rect;
 public class Allumettes extends View {
 
     private Drawable allumette;
-    private int nbAllumettesVisibles = 21;
+    private int nbAllumettesTotal = 21;
+    private int nbAllumettesEnlevees = 0;
+    private int nbAllumettesSelectionnees = 0;
     private int allumetteLargeur;
     private int allumetteHauteur;
     private int espaceEntreAllumettes;
     private int espaceBordEcran;
-    private int nbAllumettesSelectionnees = 0;
     private Paint selectionPaint;
     private Paint removedPaint;
 
@@ -44,9 +48,9 @@ public class Allumettes extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        espaceBordEcran = w / (nbAllumettesVisibles * 2);
+        espaceBordEcran = w / (nbAllumettesTotal * 2);
         espaceEntreAllumettes = espaceBordEcran;
-        allumetteLargeur = (w - (espaceEntreAllumettes * (nbAllumettesVisibles - 1)) - 2 * espaceBordEcran) / nbAllumettesVisibles;
+        allumetteLargeur = (w - (espaceEntreAllumettes * (nbAllumettesTotal - 1)) - 2 * espaceBordEcran) / nbAllumettesTotal;
         allumetteHauteur = h * 2 / 3;
 
         // On adapte la largeur de l'image pour conserver les proportions
@@ -58,26 +62,48 @@ public class Allumettes extends View {
         invalidate(); // Redessinez la vue avec les nouvelles allumettes sélectionnées
     }
 
+    public void setRemovedCount(int nbAllumettesEnlevees) {
+        this.nbAllumettesEnlevees = nbAllumettesEnlevees;
+        invalidate(); // Redessinez la vue avec les nouvelles allumettes enlevées
+    }
+
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int nbAllumettes = this.nbAllumettesVisibles;
+        int totalCount = nbAllumettesTotal;
         int x = espaceBordEcran;
-        int y = (getHeight() - allumetteHauteur) / 2; // Centrez verticalement les allumettes
+        int y = (getHeight() - allumetteHauteur) / 2;
 
-        while (nbAllumettes > 0) {
-            allumette.setBounds(x, y, x + allumetteLargeur, y + allumetteHauteur);
-            allumette.draw(canvas);
+        for (int i = 0; i < totalCount; i++) {
+            if (i < nbAllumettesTotal - nbAllumettesEnlevees) {
+                allumette.setBounds(x, y, x + allumetteLargeur, y + allumetteHauteur);
+                allumette.draw(canvas);
+            }
 
-            if (nbAllumettes <= nbAllumettesSelectionnees) {
+            if (i >= nbAllumettesTotal - nbAllumettesEnlevees - nbAllumettesSelectionnees && i < nbAllumettesTotal - nbAllumettesEnlevees) {
                 Rect rect = new Rect(x - 5, y - 5, x + allumetteLargeur + 5, y + allumetteHauteur + 5);
                 canvas.drawRect(rect, selectionPaint);
+            } else if (i >= nbAllumettesTotal - nbAllumettesEnlevees) {
+                Rect rect = new Rect(x - 5, y - 5, x + allumetteLargeur + 5, y + allumetteHauteur + 5);
+                canvas.drawRect(rect, removedPaint);
             }
 
             x += allumetteLargeur + espaceEntreAllumettes;
-
-            --nbAllumettes;
         }
+    }
+
+
+
+
+    public void setVisibleCount(int nbAllumettesVisibles) {
+        this.nbAllumettesEnlevees = nbAllumettesTotal - nbAllumettesVisibles - nbAllumettesSelectionnees;
+        invalidate(); // Redessinez la vue avec les nouvelles allumettes visibles
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.nbAllumettesTotal = totalCount;
+        invalidate(); // Redessinez la vue avec les nouvelles allumettes totales
     }
 
 

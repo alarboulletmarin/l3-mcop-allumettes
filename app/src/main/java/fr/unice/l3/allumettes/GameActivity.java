@@ -1,15 +1,24 @@
 package fr.unice.l3.allumettes;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import fr.unice.l3.allumettes.engine.JeuDesAllumettes;
+import fr.unice.l3.allumettes.player.Joueur;
 import fr.unice.l3.allumettes.view.Allumettes;
+import fr.unice.l3.matchesgame.control.Controleur;
 
 
 public class GameActivity extends AppCompatActivity {
-
+    private JeuDesAllumettes jeu;
+    private Controleur controleur;
     private Allumettes allumettesView;
 
     @Override
@@ -17,15 +26,36 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        allumettesView = findViewById(R.id.allumettes);
+        jeu = new JeuDesAllumettes(21);
+        jeu.ajouterJoueur(new Joueur("IA 1"));
+        jeu.ajouterJoueur(new Joueur("IA 2"));
 
-        // Ceci est juste pour tester la sélection d'allumettes, vous pouvez remplacer cette partie
-        // par la logique de votre jeu pour mettre à jour le nombre d'allumettes sélectionnées
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        allumettesView = findViewById(R.id.allumettes);
+        controleur = new Controleur(jeu, this, allumettesView);
+
+
+        Button startButton = findViewById(R.id.start_game_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                allumettesView.setSelectedCount(3);
+            public void onClick(View v) {
+                controleur.start();
             }
-        }, 3000);
+        });
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        controleur.stop();
+    }
+
+    public void updateView(String message) {
+        TextView historyTextView = findViewById(R.id.historique_text);
+        historyTextView.append(message);
+
+        ScrollView scrollView = findViewById(R.id.historique_scroll);
+        scrollView.fullScroll(View.FOCUS_DOWN);
+    }
+
 }
