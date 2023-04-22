@@ -27,6 +27,9 @@ public class Allumettes extends View {
     private int espaceBordEcran;
     private Paint selectionPaint;
     private Paint removedPaint;
+    private Rect selectionRect;
+    private Rect removedRect;
+
 
     public Allumettes(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -42,6 +45,10 @@ public class Allumettes extends View {
         removedPaint.setStyle(Paint.Style.STROKE);
         removedPaint.setStrokeWidth(5);
         removedPaint.setPathEffect(new DashPathEffect(new float[]{25, 25}, 0));
+
+        selectionRect = new Rect();
+        removedRect = new Rect();
+
     }
 
     @Override
@@ -82,12 +89,13 @@ public class Allumettes extends View {
             }
 
             if (i >= nbAllumettesTotal - nbAllumettesEnlevees - nbAllumettesSelectionnees && i < nbAllumettesTotal - nbAllumettesEnlevees) {
-                Rect rect = new Rect(x - 5, y - 5, x + allumetteLargeur + 5, y + allumetteHauteur + 5);
-                canvas.drawRect(rect, selectionPaint);
+                selectionRect.set(x - 5, y - 5, x + allumetteLargeur + 5, y + allumetteHauteur + 5);
+                canvas.drawRect(selectionRect, selectionPaint);
             } else if (i >= nbAllumettesTotal - nbAllumettesEnlevees) {
-                Rect rect = new Rect(x - 5, y - 5, x + allumetteLargeur + 5, y + allumetteHauteur + 5);
-                canvas.drawRect(rect, removedPaint);
+                removedRect.set(x - 5, y - 5, x + allumetteLargeur + 5, y + allumetteHauteur + 5);
+                canvas.drawRect(removedRect, removedPaint);
             }
+
 
             x += allumetteLargeur + espaceEntreAllumettes;
         }
@@ -97,13 +105,13 @@ public class Allumettes extends View {
 
 
     public void setVisibleCount(int nbAllumettesVisibles) {
-        this.nbAllumettesEnlevees = nbAllumettesTotal - nbAllumettesVisibles - nbAllumettesSelectionnees;
-        invalidate(); // Redessinez la vue avec les nouvelles allumettes visibles
+        this.nbAllumettesEnlevees = nbAllumettesTotal - nbAllumettesVisibles;
+        invalidate();
     }
 
     public void setTotalCount(int totalCount) {
         this.nbAllumettesTotal = totalCount;
-        invalidate(); // Redessinez la vue avec les nouvelles allumettes totales
+        invalidate();
     }
 
 

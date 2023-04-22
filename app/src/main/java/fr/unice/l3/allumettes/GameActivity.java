@@ -11,9 +11,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import fr.unice.l3.allumettes.engine.JeuDesAllumettes;
-import fr.unice.l3.allumettes.player.Joueur;
+
+import fr.unice.l3.allumettes.player.JoueurHumain;
+import fr.unice.l3.allumettes.player.JoueurRandom;
+import fr.unice.l3.allumettes.player.JoueurSmart;
+
 import fr.unice.l3.allumettes.view.Allumettes;
+
 import fr.unice.l3.matchesgame.control.Controleur;
+import fr.unice.l3.matchesgame.control.InteractionTactile;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -26,9 +32,12 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        InteractionTactile interactionTactile = new InteractionTactile(this);
+
         jeu = new JeuDesAllumettes(21);
-        jeu.ajouterJoueur(new Joueur("IA 1"));
-        jeu.ajouterJoueur(new Joueur("IA 2"));
+        jeu.ajouterJoueur(new JoueurHumain("Joueur 1", interactionTactile));
+        jeu.ajouterJoueur(new JoueurSmart("JoueurSmart 2"));
+
 
         allumettesView = findViewById(R.id.allumettes);
         controleur = new Controleur(jeu, this, allumettesView);
@@ -41,6 +50,11 @@ public class GameActivity extends AppCompatActivity {
                 controleur.start();
             }
         });
+
+        Button validateButton = findViewById(R.id.validate_button);
+        validateButton.setOnClickListener(interactionTactile);
+        validateButton.requestFocus();
+        allumettesView.setOnClickListener(interactionTactile);
     }
 
 
@@ -58,4 +72,13 @@ public class GameActivity extends AppCompatActivity {
         scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
+    public void updateGameView(int nbSelected) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                allumettesView.setSelectedCount(nbSelected);
+                allumettesView.invalidate();
+            }
+        });
+    }
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     tools:context=".GameActivity">
 
@@ -66,5 +67,16 @@
             android:text="Commencer"
             android:layout_gravity="center_horizontal"
             android:padding="8dp" />
+
+        <Button
+            android:id="@+id/validate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valider"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/start_game_button" />
+
     </LinearLayout>
 </LinearLayout>
