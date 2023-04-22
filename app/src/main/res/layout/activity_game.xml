@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     tools:context=".GameActivity">
 
@@ -17,9 +17,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="#BDBDBD"
         android:orientation="vertical"
-        android:padding="8dp"
-        android:background="#BDBDBD">
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/historique_title"
@@ -64,19 +64,26 @@
             android:id="@+id/start_game_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Commencer"
             android:layout_gravity="center_horizontal"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:text="Commencer" />
 
         <Button
             android:id="@+id/validate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Valider"
             android:clickable="true"
+            android:text="Valider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/start_game_button" />
+
+        <Button
+            android:id="@+id/settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Réglages" />
+
 
     </LinearLayout>
 </LinearLayout>
