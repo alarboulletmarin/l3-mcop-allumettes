@@ -3,8 +3,6 @@ package fr.unice.l3.allumettes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -12,8 +10,6 @@ import android.widget.TextView;
 
 import fr.unice.l3.allumettes.engine.JeuDesAllumettes;
 
-import fr.unice.l3.allumettes.player.JoueurHumain;
-import fr.unice.l3.allumettes.player.JoueurRandom;
 import fr.unice.l3.allumettes.player.JoueurSmart;
 
 import fr.unice.l3.allumettes.view.Allumettes;
@@ -35,7 +31,8 @@ public class GameActivity extends AppCompatActivity {
         InteractionTactile interactionTactile = new InteractionTactile(this);
 
         jeu = new JeuDesAllumettes(21);
-        jeu.ajouterJoueur(new JoueurHumain("Joueur 1", interactionTactile));
+//        jeu.ajouterJoueur(new JoueurHumain("Joueur 1", interactionTactile));
+        jeu.ajouterJoueur(new JoueurSmart("JoueurSmart 1"));
         jeu.ajouterJoueur(new JoueurSmart("JoueurSmart 2"));
 
 
