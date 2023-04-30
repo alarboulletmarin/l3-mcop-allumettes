@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import fr.unice.l3.allumettes.engine.JeuDesAllumettes;
 
+import fr.unice.l3.allumettes.player.JoueurHumain;
 import fr.unice.l3.allumettes.player.JoueurSmart;
 
 import fr.unice.l3.allumettes.view.Allumettes;
@@ -31,9 +32,9 @@ public class GameActivity extends AppCompatActivity {
         InteractionTactile interactionTactile = new InteractionTactile(this);
 
         jeu = new JeuDesAllumettes(21);
-//        jeu.ajouterJoueur(new JoueurHumain("Joueur 1", interactionTactile));
+        jeu.ajouterJoueur(new JoueurHumain("Joueur 1", interactionTactile));
         jeu.ajouterJoueur(new JoueurSmart("JoueurSmart 1"));
-        jeu.ajouterJoueur(new JoueurSmart("JoueurSmart 2"));
+//        jeu.ajouterJoueur(new JoueurSmart("JoueurSmart 2"));
 
 
         allumettesView = findViewById(R.id.allumettes);
@@ -55,12 +56,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * La méthode onDestroy() est appelée lorsque l'activité est détruite.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         controleur.stop();
     }
 
+    /**
+     * La méthode updateView() est appelée par le contrôleur pour mettre à jour
+     * l'affichage du texte de l'historique.
+     * @param message le message à ajouter à l'historique
+     */
     public void updateView(String message) {
         TextView historyTextView = findViewById(R.id.historique_text);
         historyTextView.append(message);
@@ -69,6 +78,11 @@ public class GameActivity extends AppCompatActivity {
         scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
+    /**
+     * La méthode updateGameView() est appelée par le contrôleur pour mettre à jour
+     * l'affichage du nombre d'allumettes restantes.
+     * @param nbSelected le nombre d'allumettes sélectionnées
+     */
     public void updateGameView(int nbSelected) {
         runOnUiThread(new Runnable() {
             @Override

@@ -11,6 +11,12 @@ public class JoueurHumain extends Joueur {
         this.interaction = interaction;
     }
 
+    /**
+     * Méthode appelée par le jeu pour demander au joueur de jouer
+     * @param nbAllumettesVisibles le nombre d'allumettes visibles sur le plateau
+     * @return le nombre d'allumettes que le joueur souhaite retirer
+     * @throws InterruptedException
+     */
     @Override
     public int jouer(int nbAllumettesVisibles) throws InterruptedException {
         int nbSelected;
@@ -22,6 +28,10 @@ public class JoueurHumain extends Joueur {
         return nbSelected;
     }
 
+    /**
+     * Met en pause l'exécution pour 1 seconde. Peut être utiliser par le Contrôleur
+     * pour simuler le temps de jeu d'un tour pour un joueur IA.
+     */
     @Override
     public void attendre() {
         // Pas besoin d'attente artificielle pour un joueur humain

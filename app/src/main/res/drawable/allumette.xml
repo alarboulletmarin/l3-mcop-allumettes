@@ -6,14 +6,15 @@
         </shape>
     </item>
     <item android:top="10dp">
-        <shape android:shape="rectangle"  >
+        <shape android:shape="rectangle">
             <solid android:color="@android:color/holo_orange_light" />
         </shape>
     </item>
-    <item >
-        <shape android:shape="rectangle"  >
-            <stroke android:color="@android:color/black"
-                android:width="1dp"/>
+    <item>
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="1dp"
+                android:color="@android:color/black" />
         </shape>
     </item>
 </layer-list>

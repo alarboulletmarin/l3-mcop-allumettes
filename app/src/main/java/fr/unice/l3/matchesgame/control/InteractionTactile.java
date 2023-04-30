@@ -13,12 +13,18 @@ public class InteractionTactile implements View.OnClickListener {
     private boolean active;
     private final GameActivity gameActivity;
 
+    /**
+     * Constructeur
+     *
+     * @param gameActivity l'activité du jeu
+     */
     public InteractionTactile(GameActivity gameActivity) {
         this.gameActivity = gameActivity;
         synchro = new Object();
         nbAllumettesSelectionnees = 1;
         active = false;
     }
+
 
     public Object startTurn() {
         active = true;
@@ -30,6 +36,13 @@ public class InteractionTactile implements View.OnClickListener {
         return nbAllumettesSelectionnees;
     }
 
+    /**
+     * Méthode appelée par le jeu pour demander au joueur de jouer
+     *
+     * @param v la vue sur laquelle l'utilisateur a cliqué
+     * @return le nombre d'allumettes que le joueur souhaite retirer
+     * @throws InterruptedException
+     */
     @Override
     public void onClick(View v) {
         if (active) {

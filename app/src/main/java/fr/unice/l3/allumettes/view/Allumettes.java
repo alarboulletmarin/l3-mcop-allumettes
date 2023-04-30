@@ -51,6 +51,11 @@ public class Allumettes extends View {
 
     }
 
+    /**
+     * Définit le nombre d'allumettes total à afficher (21 par défaut) et s'adapte a la taille de l'écran
+     *
+     * @param w, h, oldw, oldh
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -64,17 +69,32 @@ public class Allumettes extends View {
         allumette.setBounds(0, 0, allumette.getIntrinsicWidth() * allumetteHauteur / allumette.getIntrinsicHeight(), allumetteHauteur);
     }
 
+    /**
+     * Définit le nombre d'allumettes total
+     *
+     * @param nbAllumettesSelectionnees
+     */
     public void setSelectedCount(int nbAllumettesSelectionnees) {
         this.nbAllumettesSelectionnees = nbAllumettesSelectionnees;
-        invalidate(); // Redessinez la vue avec les nouvelles allumettes sélectionnées
+        invalidate(); // Redessine la vue avec les nouvelles allumettes sélectionnées
     }
 
+    /**
+     * Définit le nombre d'allumettes enlevées
+     *
+     * @param nbAllumettesEnlevees
+     */
     public void setRemovedCount(int nbAllumettesEnlevees) {
         this.nbAllumettesEnlevees = nbAllumettesEnlevees;
-        invalidate(); // Redessinez la vue avec les nouvelles allumettes enlevées
+        invalidate(); // Redessine la vue avec les nouvelles allumettes enlevées
     }
 
 
+    /**
+     * Dessine les allumettes
+     *
+     * @param canvas
+     */
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -96,23 +116,27 @@ public class Allumettes extends View {
                 canvas.drawRect(removedRect, removedPaint);
             }
 
-
             x += allumetteLargeur + espaceEntreAllumettes;
         }
     }
 
-
-
-
+    /**
+     * Définit le nombre d'allumettes visibles
+     *
+     * @param nbAllumettesVisibles
+     */
     public void setVisibleCount(int nbAllumettesVisibles) {
         this.nbAllumettesEnlevees = nbAllumettesTotal - nbAllumettesVisibles;
         invalidate();
     }
 
+    /**
+     * Définit le nombre total d'allumettes
+     *
+     * @param totalCount
+     */
     public void setTotalCount(int totalCount) {
         this.nbAllumettesTotal = totalCount;
         invalidate();
     }
-
-
 }
